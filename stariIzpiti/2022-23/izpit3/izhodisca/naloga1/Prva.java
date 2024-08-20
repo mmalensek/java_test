@@ -16,7 +16,27 @@ import java.util.*;
 public class Prva {
 
     public static void main(String[] args) {
-        // dopolnite ...
+        Scanner sc = new Scanner(System.in);
+
+        int trenutni = 0, visina = 0, stevecPresledkov = 0;
+
+        while(sc.hasNext()){
+            trenutni = sc.nextInt();
+            if(trenutni == 2){
+                visina++;
+                if(sc.hasNext()){
+                stevecPresledkov = 0;
+                }
+            }
+            if(trenutni == 0){
+                stevecPresledkov++;
+            }
+        }
+
+        System.out.println(visina);
+        System.out.println(stevecPresledkov);
+
+        sc.close();
     }
 
     // pomo"zne metode, notranji razredi (po potrebi) ...

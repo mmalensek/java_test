@@ -29,12 +29,12 @@ public class Tretja {
         }
     }
 
-    public static class Samostalnik extends Beseda {
+    public static class SamPrid extends Beseda{
         private char spol;    // 'M', 'Z' ali 'S'
         private int sklon;    // med 1 (imenovalnik) in 6 (orodnik)
         private int stevilo;  // 1, 2 ali 3
 
-        public Samostalnik(String zapis, char spol, int sklon, int stevilo) {
+        public SamPrid(String zapis, char spol, int sklon, int stevilo) {
             super(zapis);
             this.spol = spol;
             this.sklon = sklon;
@@ -42,16 +42,23 @@ public class Tretja {
         }
     }
 
-    public static class Pridevnik extends Beseda {
-        private char spol;    // 'M', 'Z' ali 'S'
-        private int sklon;    // med 1 (imenovalnik) in 6 (orodnik)
-        private int stevilo;  // 1, 2 ali 3
+    public static class Samostalnik extends SamPrid {
+        //private char spol;    // 'M', 'Z' ali 'S'
+        //private int sklon;    // med 1 (imenovalnik) in 6 (orodnik)
+        // private int stevilo;  // 1, 2 ali 3
+
+        public Samostalnik(String zapis, char spol, int sklon, int stevilo) {
+            super(zapis, spol, sklon, stevilo);
+        }
+    }
+
+    public static class Pridevnik extends SamPrid {
+        //private char spol;    // 'M', 'Z' ali 'S'
+        //private int sklon;    // med 1 (imenovalnik) in 6 (orodnik)
+        //private int stevilo;  // 1, 2 ali 3
 
         public Pridevnik(String zapis, char spol, int sklon, int stevilo) {
-            super(zapis);
-            this.spol = spol;
-            this.sklon = sklon;
-            this.stevilo = stevilo;
+            super(zapis, spol, sklon, stevilo);
         }
     }
 
@@ -66,6 +73,7 @@ public class Tretja {
         }
     }
 
+
     public static class Stavek {
         private Beseda[] besede;
 
@@ -74,13 +82,24 @@ public class Tretja {
         }
 
         public Glagol poisciGlagol() {
-            // popravite / dopolnite ...
+            for(int i = 0; i < besede.length; i++){
+                if(besede[i] instanceof Glagol){
+                    return (Glagol) besede[i];
+                }
+            }
             return null;
         }
 
         public boolean preveriPS() {
-            // popravite / dopolnite ...
-            return false;
+            for(int i = 0; i + 1 < besede.length; i++){
+                if(besede[i] instanceof Pridevnik && besede[i + 1] instanceof Glagol){
+                    return false;
+                }
+                if(i + 2 == besede.length && besede[i + 1] instanceof Pridevnik){
+                    return false;
+                }
+            }
+            return true;
         }
     }
 

@@ -1,4 +1,3 @@
-
 public class avto implements printable{
     private String znamka;
     private int cena;
@@ -8,7 +7,7 @@ public class avto implements printable{
         this.cena = cena;
     }
 
-    public void print(){
-        System.out.println("Avto je znamke " + this.znamka + " in stane " + this.cena + " eurov.");
-    }
+    // dodano za lambdo ime in cena
+    public void print(String znamka, int cena){};
+        // System.out.println("Avto je znamke " + this.znamka + " in stane " + this.cena + " eurov.");
 }

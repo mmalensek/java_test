@@ -15,6 +15,30 @@ import java.util.*;
 public class Prva {
 
     public static void main(String[] args) {
-        // dopolnite ...
+        int max = 0, trenutniMax = 0, prvi, drugi;
+        
+        Scanner sc = new Scanner(System.in);
+
+        prvi = sc.nextInt();
+        drugi = prvi;
+        prvi = sc.nextInt();
+
+        max = prvi + drugi;
+        trenutniMax = max;
+
+        while(sc.hasNext()){
+            trenutniMax -= drugi;
+            drugi = prvi;
+            prvi = sc.nextInt();
+            trenutniMax += prvi;
+
+            if(trenutniMax > max){
+                max = trenutniMax;
+            }
+        }
+
+        System.out.println(max);
+
+        sc.close();
     }
 }

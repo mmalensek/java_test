@@ -16,6 +16,7 @@ public class Cetrta {
             this.prehodi = prehodi;
         }
 
+
         public String vrniZacetnoStanje() {
             return this.zacetnoStanje;
         }
@@ -29,18 +30,44 @@ public class Cetrta {
         }
 
         public boolean jeSprejemno(String stanje) {
-            // popravite / dopolnite ...
-            return false;
+            return sprejemnaStanja.contains(stanje);
         }
 
         public String kam(String beseda) {
-            // popravite / dopolnite ...
-            return "";
+
+            String stanje = zacetnoStanje;
+
+            for(int i = 0; i < beseda.length(); i++){
+                stanje = prehodi.get(stanje).get(beseda.charAt(i));
+                if(stanje == null){
+                    return null;
+                }
+            }
+            
+            return stanje;
         }
 
         public static Avtomat zaBesedo(String beseda) {
-            // popravite / dopolnite ...
-            return null;
+            Avtomat VRNI = new Avtomat(Integer.toString(0), null, null);
+            
+            Set<String> sprejemnaStanja = new HashSet<>();
+            sprejemnaStanja.add(Integer.toString(beseda.length() - 1));
+
+            VRNI.sprejemnaStanja = sprejemnaStanja;
+
+            Map<String, Map<Character, String>> prehodi = new HashMap<>();
+            for(int i = 0; i < beseda.length() - 1; i++){
+                Map<Character, String> temp = new HashMap<>();
+                temp.put('x', Integer.toString(i + 1));
+                prehodi.put(Integer.toString(i), temp);
+            }
+
+
+            Map<Character, String> temp = new HashMap<>();
+            temp.put('x', Integer.toString(beseda.length() - 2));
+            prehodi.put(Integer.toString(beseda.length() - 1), temp);
+
+            return VRNI;
         }
     }
 

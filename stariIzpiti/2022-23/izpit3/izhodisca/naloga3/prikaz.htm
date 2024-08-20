@@ -1,0 +1,1226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Prikaz rezultatov testiranja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            .tableBase { border-collapse: collapse; }
+            .tableBase > tbody > tr > td { border: 1px solid black; padding: 7px;}
+            .tableResults { table-layout: fixed; border-spacing: 0px; border-collapse: separate; }
+            table#nasredini { margin-left:auto; margin-right:auto; }
+            table tbody td.hoverOk {background-color:#9F9; border: 1px solid #63B563; width: 15px; color: black; text-align: center; }
+            .hoverOk:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #63B563; }
+            .hoverOk:hover td { background: transparent; }
+            .hoverOk > a:link, .hoverOk > a:visited, .hoverOk > a:hover, .hoverOk > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverErr {background-color:#FFBF00; border: 1px solid #CB9800; width: 15px; color: black; text-align: center; }
+            .hoverErr:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #CB9800; }
+            .hoverErr:hover td { background: transparent; }
+            .hoverErr > a:link, .hoverErr > a:visited, .hoverErr > a:hover, .hoverErr > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverRuntime {background-color:#FF9; border: 1px solid #D8D87E; width: 15px; color: black; text-align: center; }
+            .hoverRuntime:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #D8D87E; }
+            .hoverRuntime:hover td { background: transparent; }
+            .hoverRuntime > a:link, .hoverRuntime > a:visited, .hoverRuntime > a:hover, .hoverRuntime > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverCompile {background-color:#C00000; border: 1px solid #710B0B; width: 15px; color: black; text-align: center; }
+            .hoverCompile:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #710B0B; }
+            .hoverCompile:hover td { background: transparent; }
+            .hoverCompile > a:link, .hoverCompile > a:visited, .hoverCompile > a:hover, .hoverCompile > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverMissing {background-color:#F0F0F0; border: 1px solid #ABABAB; width: 15px; color: black; text-align: center; }
+            .hoverMissing:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #ABABAB; }
+            .hoverMissing:hover td { background: transparent; }
+            .hoverMissing > a:link, .hoverMissing > a:visited, .hoverMissing > a:hover, .hoverMissing > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverTimeout {background-color:#B9F; border: 1px solid #9070CE; width: 15px; color: black; text-align: center; }
+            .hoverTimeout:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #9070CE; }
+            .hoverTimeout:hover td { background: transparent; }
+            .hoverTimeout > a:link, .hoverTimeout > a:visited, .hoverTimeout > a:hover, .hoverTimeout > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverImage {background-color:#D0E0F0; border: 1px solid #a6b3c0; width: 15px; color: black; text-align: center; }
+            .hoverImage:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #a6b3c0; }
+            .hoverImage:hover td { background: transparent; }
+            .hoverImage > a:link, .hoverImage > a:visited, .hoverImage > a:hover, .hoverImage > a:active { color: black; font-size: 0.9em; }
+            .tableCommon { border-collapse: collapse; }
+            .tableOK > tbody > tr > td { border: 1px solid #63B563; padding: 7px;}
+            .tableError > tbody > tr > td { border: 1px solid #CB9800; padding: 7px;}
+            .tableRuntime > tbody > tr > td { border: 1px solid #D8D87E; padding: 7px;}
+            .tableCompiler > tbody > tr > td { border: 1px solid #710B0B; padding: 7px;}
+            .tableMissing > tbody > tr > td { border: 1px solid #ABABAB; padding: 7px;}
+            .tableTimeout > tbody > tr > td { border: 1px solid #9070CE; padding: 7px;}
+            .tableImage > tbody > tr > td { border: 1px solid #a6b3c0; padding: 7px;}
+            .tableSummary { table-layout: fixed; }
+            .texttt { font-family: DejaVu Sans Mono, monospace; font-size: 0.8em; }
+            table.diff > tbody > tr > td { border: none; font-family: DejaVu Sans Mono, monospace}
+            .diff_add { color: green; font-family: DejaVu Sans Mono, monospace; }
+            .diff_sub { color: blue; font-family: DejaVu Sans Mono, monospace; }
+            .diff_chg { color: red; font-family: DejaVu Sans Mono, monospace; }
+            a { color: blue; text-decoration: none; height: 100%; width: 100%; vertical-align: middle; }
+            a:link { color: blue; text-decoration: none; }
+            a:link { color: blue; text-decoration: none; }
+            a:hover { color: blue; text-decoration: underline; }
+            body, td { font: normal normal 100%/1.0 DejaVu Sans, sans-serif; }
+            h1 { font-weight: bold; font-size: 150%; }
+            h2 { font-weight: normal; font-size: 125%; border-top: 1px solid black; border-bottom: 1px solid black; background: #DEF; padding: 5px; margin-top: 36px; margin-bottom: 36px}
+            .container{ margin: 0px auto; width: 70%; min-width: 700px; margin-top: 1.8cm; margin-bottom: 1.8cm; }
+            .rwordb{ color: blue; font-weight: bold; }
+            .rwordv{ color:#8000ff; font-weight: bold; }
+            .vcomment{ color: green; }
+            .bcomment{ color: green; }
+            .niz{ color:#a31515; }
+            .stevilo{ color:#ff8000; }
+            tab { padding-left: 4em; }
+            #grad1 {
+                background: -webkit-linear-gradient(left, #E0E0E0 , white);
+                background: -o-linear-gradient(right, #E0E0E0, white);
+                background: -moz-linear-gradient(right, #E0E0E0, white);
+                background: linear-gradient(to right, #E0E0E0 , white);
+            }
+            #grad2 {
+                background: -webkit-linear-gradient(left, #9F9 , white);
+                background: -o-linear-gradient(right, #9F9, white);
+                background: -moz-linear-gradient(right, #9F9, white);
+                background: linear-gradient(to right, #9F9 , white);
+            }
+            .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
+            .dborder { padding: 0px; border: 1px solid #CACACA; }
+            .capText { display: block; margin:0 auto; font-size: 0.9em; text-align: left; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <a name="top"></a>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (10/10)</h1>
+        <div style="height: 20px"></div>
+        <a name="summary"></a>
+        <h2>Povzetek rezultatov</h2>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverOk"><a href="#testcase1">1</a></td>
+                <td class="hoverOk"><a href="#testcase2">2</a></td>
+                <td class="hoverOk"><a href="#testcase3">3</a></td>
+                <td class="hoverOk"><a href="#testcase4">4</a></td>
+                <td class="hoverOk"><a href="#testcase5">5</a></td>
+                <td class="hoverOk"><a href="#testcase6">6</a></td>
+                <td class="hoverOk"><a href="#testcase7">7</a></td>
+                <td class="hoverOk"><a href="#testcase8">8</a></td>
+                <td class="hoverOk"><a href="#testcase9">9</a></td>
+                <td class="hoverOk"><a href="#testcase10">10</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div style="height: 20px"></div>
+        <h2>Rezultati</h2>
+        <a name="testcase1"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 1</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test01 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Stavek stavek = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"veliki"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"leseni"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mizi"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"stojita"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Beseda(<span class="niz">"na"</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"kamnitih"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"tleh"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>)<br/>
+<tab><tab>});<br/>
+<br/>
+<tab><tab>Tretja.Glagol glagol = stavek.poisciGlagol();<br/>
+<tab><tab>System.out.println(glagol);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            stojita<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase2"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 2</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test02 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Stavek stavek1 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"zi"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"itd"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"puggha"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"d"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek1.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek2 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"mq"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"khnkjsm"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mctvz"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"kwlglxe"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"xd"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek2.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek3 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek3.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek4 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"aay"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"qxgurj"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ib"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"cs"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"jio"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bfwh"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek4.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek5 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"wgbglp"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"jvex"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"hjz"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek5.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek6 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"yzmqzd"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"qai"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"axwefy"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek6.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek7 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"yektdv"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"p"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ndprbnf"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"tjoykmo"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"pd"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"aqgmdt"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"cxdhd"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"cfvy"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"z"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ixsv"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"uqtovp"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"zlv"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek7.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek8 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"wypfe"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"dfigr"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"lssovyh"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"y"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"vjkdajo"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"cve"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek8.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek9 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"kbdzypx"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"qmscsvt"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek9.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek10 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"rv"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"dlqnqng"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"jfc"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"sjqfp"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"t"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"qe"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"d"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek10.poisciGlagol());<br/>
+<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            zi<br/>mq<br/>null<br/>ib<br/>jvex<br/>yzmqzd<br/>tjoykmo<br/>dfigr<br/>qmscsvt<br/>rv<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase3"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 3</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test03 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Stavek stavek1 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"l"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"abltfz"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"t"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mhh"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"gddr"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"bnytt"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"z"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"jpvz"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bikfhwl"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"vm"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"jpo"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek1.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek2 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"fwt"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"wcelyb"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"wzo"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"goozy"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"mugacw"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"rdjcu"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ju"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"qsbutt"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"phcsmtw"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"dxg"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"isbjxn"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek2.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek3 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"xkz"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"hjiqia"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"xtto"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"siytsp"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"exaf"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"i"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"yjqbxns"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ejm"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"uwn"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"bppkswo"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ww"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"feldsb"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"btez"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bpjim"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek3.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek4 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"asd"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"cq"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"huuhfq"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"hux"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"dlyfc"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"z"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"kebtcx"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"jniq"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"mbmmbpc"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bav"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"pmqzjkk"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"wzmp"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek4.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek5 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"meyhtr"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"c"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ikfmegn"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ejcrvjr"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"zdloajd"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"o"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"dzziq"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"cx"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"n"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"izyuocn"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek5.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek6 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"tlvbcee"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"yfcf"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"bhlrd"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"xgtiylo"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ydorwe"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"qrpximz"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"srafo"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"p"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"f"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek6.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek7 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"uvhjzy"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"eccdc"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"j"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mdr"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"oluiyjl"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"xtobe"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"rfh"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"vo"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"bhjis"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"qfdxbd"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ksee"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ttmq"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"yn"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"b"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"vjalt"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek7.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek8 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"masnj"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"odzg"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"zwfqdk"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"b"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"vw"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"crsdpu"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bmmne"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek8.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek9 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"tsmv"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"hscnyfp"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"tf"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"yugoe"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"fzkvqgb"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"uqfcf"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"o"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ryvbwdg"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"g"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"qpoe"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"v"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"etheu"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek9.poisciGlagol());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek10 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"gte"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"qnwtic"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"q"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"vrm"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"mvyehyy"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"z"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"oxph"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"hcnxnb"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"awehsk"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"vputrsv"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"sbqcb"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"nj"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"dhkrc"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek10.poisciGlagol());<br/>
+<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            jpvz<br/>wcelyb<br/>siytsp<br/>dlyfc<br/>ejcrvjr<br/>bhlrd<br/>uvhjzy<br/>masnj<br/>tsmv<br/>gte<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase4"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 4</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test04 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Stavek stavek1 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"veliki"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"leseni"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mizi"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"stojita"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Beseda(<span class="niz">"na"</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"kamnitih"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"tleh"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek1.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek2 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"veliki"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"leseni"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mizi"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"stojita"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Beseda(<span class="niz">"na"</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"kamnitih"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek2.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek3 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"veliki"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"leseni"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"stojita"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Beseda(<span class="niz">"na"</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"kamnitih"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"tleh"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek3.preveriPS());<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            true<br/>false<br/>false<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase5"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 5</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test05 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Stavek stavek1 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"fp"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ameibwo"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ryqzwwj"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"thzfvhp"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek1.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek2 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"pmelifq"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"hvahw"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"te"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"mc"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ptretef"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ojkx"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"z"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek2.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek3 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"xxhub"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"fkdj"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek3.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek4 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"zmpag"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"pcgwge"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ft"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek4.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek5 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"lqb"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ik"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"wljykfv"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"jpgny"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"gtutd"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"fwebabl"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"fgdwvs"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ut"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"tymk"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"rqylsiu"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"vq"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"b"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"zdb"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek5.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek6 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"koktjko"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"btrpt"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ght"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"rzwv"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"gahe"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"vtl"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"you"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"d"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"xdpwp"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"roog"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"xwmhhxa"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"u"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek6.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek7 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"t"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"becdqto"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"r"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"grwlq"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek7.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek8 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"vxhaiy"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"wjeo"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"d"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"zygcxwq"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"qqpl"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"onrfziy"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek8.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek9 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"rsa"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"byu"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"w"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"l"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"asi"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek9.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek10 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"vd"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"tis"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"oexiq"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"njhu"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"yuf"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"d"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek10.preveriPS());<br/>
+<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            true<br/>false<br/>false<br/>true<br/>false<br/>false<br/>false<br/>true<br/>true<br/>false<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase6"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 6</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test06 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Stavek stavek1 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"x"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"qnvxku"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"tsdhwzh"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"amrk"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"t"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mgsqk"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ne"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"z"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"sxg"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mbupaem"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"tzjcae"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"o"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"wrjjrpf"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"yj"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ir"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"tp"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek1.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek2 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"qxppyhl"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"yrv"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"u"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"omqkdlv"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ycvmbsv"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"srxj"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"e"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"e"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"egnpt"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"pyh"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"c"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"buyvcg"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"p"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek2.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek3 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"amqq"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"nighnla"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"knayhl"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"c"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"h"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"o"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"zsbh"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"pahhmt"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek3.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek4 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"apskvnv"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ia"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ueuqapf"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bfwenp"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek4.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek5 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ihgmvv"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"xai"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"hz"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"zzpwvg"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"kk"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek5.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek6 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"caced"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"i"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"rk"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"fofclz"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"mtdfvau"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ii"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"zzuyss"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"sxoe"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"neyrlc"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"mccl"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"y"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"oyizw"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"rkiy"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"evwzlpe"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek6.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek7 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ajxt"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek7.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek8 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"bfmnfvw"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"cusevpu"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"r"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ulrkns"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"fz"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"or"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"n"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek8.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek9 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"pd"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"n"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"cnrp"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"atflo"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ykkomwg"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"rpkms"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bx"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"rxjwkpo"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ply"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"iwktbqc"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"s"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"hwlysi"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek9.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek10 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"jwuhb"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"qyur"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ime"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"wwys"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek10.preveriPS());<br/>
+<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            false<br/>false<br/>true<br/>true<br/>false<br/>true<br/>true<br/>false<br/>true<br/>false<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase7"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 7</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test07 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Stavek stavek1 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"y"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"pc"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"c"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"lzp"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"zjo"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"rsa"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"awqb"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"xsg"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek1.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek2 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"hongdon"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"vaoaxa"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ncnueen"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"mamwy"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"topk"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bmn"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"njlldia"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"gnd"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"yxzudad"</span>, <span class="niz">'Z'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"kinv"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"fbxbn"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek2.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek3 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"xsdhf"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"zc"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"pdza"</span>, <span class="niz">'Z'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"kaklbf"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ife"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"dlhdtcu"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"bydp"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"taymih"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"zj"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"l"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek3.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek4 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"nvqgln"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"uoehfi"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"wue"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"yixxzse"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"rwfuu"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"vejfo"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"r"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"a"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"aubvp"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"lorpo"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mlxw"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"uy"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"akzohe"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek4.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek5 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"sszc"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"bvvu"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"aq"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"h"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"rerjez"</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"cptrxn"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"qlwxgsz"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek5.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek6 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"h"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"rbdispg"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"rkkqffo"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"sigmyeo"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"sjj"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"vakdx"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"o"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"td"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"dtviv"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"jxpow"</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"muqn"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"t"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek6.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek7 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ltkrp"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"qyjkhq"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"csapzud"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"hdr"</span>, <span class="niz">'Z'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"hwaks"</span>, <span class="niz">'Z'</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"pwc"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"oucrlqy"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"p"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"nlbn"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ffwn"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek7.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek8 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"xbl"</span>, <span class="niz">'M'</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"mlwoth"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"nwmjrt"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"tk"</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"zc"</span>, <span class="niz">'S'</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"miovj"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"gkkwu"</span>, <span class="niz">'S'</span>, <span class="stevilo">2</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"lhxs"</span>, <span class="niz">'M'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"mzlrb"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"leiv"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ln"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"ztol"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"ugwr"</span>, <span class="niz">'Z'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek8.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek9 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"sp"</span>, <span class="niz">'S'</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"okypqyx"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"hirr"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"gj"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"lgqz"</span>, <span class="niz">'M'</span>, <span class="stevilo">6</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek9.preveriPS());<br/>
+<br/>
+<tab><tab>Tretja.Stavek stavek10 = <span class="rwordb">new</span> Tretja.Stavek(<span class="rwordb">new</span> Tretja.Beseda[]{<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"mjdrp"</span>, <span class="stevilo">2</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"ypfnqzl"</span>, <span class="stevilo">3</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"pjqnu"</span>, <span class="niz">'M'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"boip"</span>, <span class="niz">'M'</span>, <span class="stevilo">1</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"gseku"</span>, <span class="stevilo">3</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"noaqs"</span>, <span class="niz">'M'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"el"</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"cvz"</span>, <span class="niz">'Z'</span>, <span class="stevilo">3</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"aibng"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">2</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Pridevnik(<span class="niz">"hklmyn"</span>, <span class="niz">'S'</span>, <span class="stevilo">1</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"mx"</span>, <span class="stevilo">1</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"qae"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"rvna"</span>, <span class="niz">'S'</span>, <span class="stevilo">4</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Samostalnik(<span class="niz">"buhoa"</span>, <span class="niz">'S'</span>, <span class="stevilo">5</span>, <span class="stevilo">3</span>),<br/>
+<tab><tab><tab><span class="rwordb">new</span> Tretja.Glagol(<span class="niz">"cpz"</span>, <span class="stevilo">2</span>, <span class="stevilo">1</span>),<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.println(stavek10.preveriPS());<br/>
+<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            true<br/>true<br/>false<br/>true<br/>true<br/>true<br/>false<br/>false<br/>false<br/>false<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase8"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 8</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.lang.reflect.*;<br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test08 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>nadrazred(Tretja.SamPrid.class);<br/>
+<tab><tab>nadrazred(Tretja.Samostalnik.class);<br/>
+<tab><tab>nadrazred(Tretja.Pridevnik.class);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <span class="rwordv">void</span> nadrazred(Class cl) {<br/>
+<tab><tab>System.out.printf(<span class="niz">"Nadrazred razreda %s: %s%n"</span>,<br/>
+<tab><tab><tab><tab>cl.getCanonicalName(), cl.getSuper<span class="rwordv">class</span>().getCanonicalName());<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Nadrazred&nbsp;razreda&nbsp;Tretja.SamPrid:&nbsp;Tretja.Beseda<br/>Nadrazred&nbsp;razreda&nbsp;Tretja.Samostalnik:&nbsp;Tretja.SamPrid<br/>Nadrazred&nbsp;razreda&nbsp;Tretja.Pridevnik:&nbsp;Tretja.SamPrid<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase9"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 9</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.lang.reflect.*;<br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test09 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>atributi(Tretja.SamPrid.class);<br/>
+<tab><tab>atributi(Tretja.Samostalnik.class);<br/>
+<tab><tab>atributi(Tretja.Pridevnik.class);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <span class="rwordv">void</span> atributi(Class cl) {<br/>
+<tab><tab>List<Field> atributi = <span class="rwordb">new</span> ArrayList<>(Arrays.asList(cl.getDeclaredFields()));<br/>
+<tab><tab>atributi.sort((a1, a2) -> a1.getName().compareTo(a2.getName()));<br/>
+<tab><tab>System.out.printf(<span class="niz">"Atributi, ki jih uvede razred %s: %s%n"</span>,<br/>
+<tab><tab><tab><tab>cl.getCanonicalName(), atributi);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Atributi,&nbsp;ki&nbsp;jih&nbsp;uvede&nbsp;razred&nbsp;Tretja.SamPrid:&nbsp;[private&nbsp;int&nbsp;Tretja$SamPrid.sklon,&nbsp;private&nbsp;char&nbsp;Tretja$SamPrid.spol,&nbsp;private&nbsp;int&nbsp;Tretja$SamPrid.stevilo]<br/>Atributi,&nbsp;ki&nbsp;jih&nbsp;uvede&nbsp;razred&nbsp;Tretja.Samostalnik:&nbsp;[]<br/>Atributi,&nbsp;ki&nbsp;jih&nbsp;uvede&nbsp;razred&nbsp;Tretja.Pridevnik:&nbsp;[]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase10"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 10</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.lang.reflect.*;<br/>
+<span class="rwordb">import</span> java.util.*;<br/>
+<span class="rwordb">import</span> java.util.function.IntFunction;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test10 {<br/>
+<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>konstruktorji(Tretja.SamPrid.class);<br/>
+<tab><tab>konstruktorji(Tretja.Samostalnik.class);<br/>
+<tab><tab>konstruktorji(Tretja.Pridevnik.class);<br/>
+<tab>}<br/>
+<br/>
+<tab><span class="rwordv">private</span> <span class="rwordv">static</span> <span class="rwordv">void</span> konstruktorji(Class cl) {<br/>
+<tab><tab>List<Constructor> konstruktorji = <span class="rwordb">new</span> ArrayList<>(<br/>
+<tab><tab><tab><tab>Arrays.asList(cl.getDeclaredConstructors()));<br/>
+<tab><tab>konstruktorji.sort((k1, k2) -> k1.getParameterCount() - k2.getParameterCount());<br/>
+<br/>
+<tab><tab><span class="rwordb">final</span> String[] KONCNICA = {<span class="niz">"rov"</span>, <span class="niz">"er"</span>, <span class="niz">"ra"</span>, <span class="niz">"ri"</span>, <span class="niz">"ri"</span>, <span class="niz">"rov"</span>};<br/>
+<tab><tab>IntFunction<String> koncnica = stevilo -> KONCNICA[Math.min(<span class="stevilo">5</span>, stevilo % <span class="stevilo">100</span>)];<br/>
+<br/>
+<tab><tab>List<String> stParam = <span class="rwordb">new</span> ArrayList<>();<br/>
+<tab><tab>konstruktorji.forEach(k -> { <br/>
+<tab><tab><tab><span class="rwordv">int</span> np = k.getParameterCount();<br/>
+<tab><tab><tab>stParam.add(String.format(<span class="niz">"%d paramet%s"</span>, np, koncnica.apply(np)));<br/>
+<tab><tab>});<br/>
+<tab><tab>System.out.printf(<span class="niz">"Konstruktorji razreda %s: %s%n"</span>, cl.getCanonicalName(), stParam);<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            Konstruktorji&nbsp;razreda&nbsp;Tretja.SamPrid:&nbsp;[4&nbsp;parametri]<br/>Konstruktorji&nbsp;razreda&nbsp;Tretja.Samostalnik:&nbsp;[4&nbsp;parametri]<br/>Konstruktorji&nbsp;razreda&nbsp;Tretja.Pridevnik:&nbsp;[4&nbsp;parametri]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+
+        <div style="height: 30px"></div>
+
+        <table id="grad1" class="tableLegend tableSummary"
+          <tbody>
+            <tr>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #9F9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">ok</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FFBF00; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FF9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka med izvajanjem</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #C00000; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">se ne prevede</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #B9F; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">timeout (1000 ms)</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #D0E0F0; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">rezultat izrisa</td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a name="bottom"></a>
+        </div>
+    </body>
+    <!-- java class tester version "1.5.12" -->
+    <!-- 20.8.2024 10:11.23 -->
+    <!-- malina, 192.168.1.32 -->
+</html>

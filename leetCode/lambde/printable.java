@@ -1,4 +1,5 @@
-
+@FunctionalInterface
 public interface printable {
-    void print();
+   // spremenjeno za test lambde
+   public void print(String ime, int stevilka);
 } 

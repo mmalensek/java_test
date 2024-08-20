@@ -39,13 +39,48 @@ public class Cetrta {
         }
 
         public Map<Boolean, List<Tocka>> razdeli(Collection<Tocka> tocke) {
-            // popravite / dopolnite ...
-            return null;
+            Map<Boolean, List<Tocka>> VRNI = new HashMap<Boolean,List<Tocka>>();
+            
+            Iterator<Tocka> iterator = tocke.iterator();
+            ArrayList<Tocka> DA = new ArrayList<>();
+            ArrayList<Tocka> NE = new ArrayList<>();
+            
+            while(iterator.hasNext()){
+                Tocka trenutna = iterator.next();
+                if (trenutna.x > this.x) {
+                    DA.add(trenutna);
+                }else{
+                    NE.add(trenutna);
+                }
+            }
+
+            VRNI.put(true, DA);
+            VRNI.put(false, NE);
+            
+            return VRNI;
         }
 
         public static Comparator<Tocka> polarno() {
-            // popravite / dopolnite ...
-            return null;
+            
+            return new Comparator<Tocka>() {
+                @Override
+                public int compare(Tocka tocka1, Tocka tocka2) {
+                    // Kvadrat razdalje do izhodišča
+                    int razdaljaKvadrat1 = tocka1.x * tocka1.x + tocka1.y * tocka1.y;
+                    int razdaljaKvadrat2 = tocka2.x * tocka2.x + tocka2.y * tocka2.y;
+
+                    if (razdaljaKvadrat1 != razdaljaKvadrat2) {
+                        return Integer.compare(razdaljaKvadrat1, razdaljaKvadrat2);
+                    }
+
+                    // Polarni kot
+                    double kot1 = Math.atan2(tocka1.y, tocka1.x);
+                    double kot2 = Math.atan2(tocka2.y, tocka2.x);
+
+                    return Double.compare(kot1, kot2);
+                }
+            };
+
         }
     }
 
