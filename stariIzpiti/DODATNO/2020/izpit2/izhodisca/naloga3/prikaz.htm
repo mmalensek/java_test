@@ -1,0 +1,1082 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+          "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Prikaz rezultatov testiranja</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            .tableBase { border-collapse: collapse; }
+            .tableBase > tbody > tr > td { border: 1px solid black; padding: 7px;}
+            .tableResults { table-layout: fixed; border-spacing: 0px; border-collapse: separate; }
+            table#nasredini { margin-left:auto; margin-right:auto; }
+            table tbody td.hoverOk {background-color:#9F9; border: 1px solid #63B563; width: 15px; color: black; text-align: center; }
+            .hoverOk:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #63B563; }
+            .hoverOk:hover td { background: transparent; }
+            .hoverOk > a:link, .hoverOk > a:visited, .hoverOk > a:hover, .hoverOk > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverErr {background-color:#FFBF00; border: 1px solid #CB9800; width: 15px; color: black; text-align: center; }
+            .hoverErr:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #CB9800; }
+            .hoverErr:hover td { background: transparent; }
+            .hoverErr > a:link, .hoverErr > a:visited, .hoverErr > a:hover, .hoverErr > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverRuntime {background-color:#FF9; border: 1px solid #D8D87E; width: 15px; color: black; text-align: center; }
+            .hoverRuntime:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #D8D87E; }
+            .hoverRuntime:hover td { background: transparent; }
+            .hoverRuntime > a:link, .hoverRuntime > a:visited, .hoverRuntime > a:hover, .hoverRuntime > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverCompile {background-color:#C00000; border: 1px solid #710B0B; width: 15px; color: black; text-align: center; }
+            .hoverCompile:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #710B0B; }
+            .hoverCompile:hover td { background: transparent; }
+            .hoverCompile > a:link, .hoverCompile > a:visited, .hoverCompile > a:hover, .hoverCompile > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverMissing {background-color:#F0F0F0; border: 1px solid #ABABAB; width: 15px; color: black; text-align: center; }
+            .hoverMissing:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #ABABAB; }
+            .hoverMissing:hover td { background: transparent; }
+            .hoverMissing > a:link, .hoverMissing > a:visited, .hoverMissing > a:hover, .hoverMissing > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverTimeout {background-color:#B9F; border: 1px solid #9070CE; width: 15px; color: black; text-align: center; }
+            .hoverTimeout:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #9070CE; }
+            .hoverTimeout:hover td { background: transparent; }
+            .hoverTimeout > a:link, .hoverTimeout > a:visited, .hoverTimeout > a:hover, .hoverTimeout > a:active { color: black; font-size: 0.9em; }
+            table tbody td.hoverImage {background-color:#D0E0F0; border: 1px solid #a6b3c0; width: 15px; color: black; text-align: center; }
+            .hoverImage:hover { background-color: #FAFAF0; !important; color: #000; border: 1px solid #a6b3c0; }
+            .hoverImage:hover td { background: transparent; }
+            .hoverImage > a:link, .hoverImage > a:visited, .hoverImage > a:hover, .hoverImage > a:active { color: black; font-size: 0.9em; }
+            .tableCommon { border-collapse: collapse; }
+            .tableOK > tbody > tr > td { border: 1px solid #63B563; padding: 7px;}
+            .tableError > tbody > tr > td { border: 1px solid #CB9800; padding: 7px;}
+            .tableRuntime > tbody > tr > td { border: 1px solid #D8D87E; padding: 7px;}
+            .tableCompiler > tbody > tr > td { border: 1px solid #710B0B; padding: 7px;}
+            .tableMissing > tbody > tr > td { border: 1px solid #ABABAB; padding: 7px;}
+            .tableTimeout > tbody > tr > td { border: 1px solid #9070CE; padding: 7px;}
+            .tableImage > tbody > tr > td { border: 1px solid #a6b3c0; padding: 7px;}
+            .tableSummary { table-layout: fixed; }
+            .texttt { font-family: DejaVu Sans Mono, monospace; font-size: 0.8em; }
+            table.diff > tbody > tr > td { border: none; font-family: DejaVu Sans Mono, monospace}
+            .diff_add { color: green; font-family: DejaVu Sans Mono, monospace; }
+            .diff_sub { color: blue; font-family: DejaVu Sans Mono, monospace; }
+            .diff_chg { color: red; font-family: DejaVu Sans Mono, monospace; }
+            a { color: blue; text-decoration: none; height: 100%; width: 100%; vertical-align: middle; }
+            a:link { color: blue; text-decoration: none; }
+            a:link { color: blue; text-decoration: none; }
+            a:hover { color: blue; text-decoration: underline; }
+            body, td { font: normal normal 100%/1.0 DejaVu Sans, sans-serif; }
+            h1 { font-weight: bold; font-size: 150%; }
+            h2 { font-weight: normal; font-size: 125%; border-top: 1px solid black; border-bottom: 1px solid black; background: #DEF; padding: 5px; margin-top: 36px; margin-bottom: 36px}
+            .container{ margin: 0px auto; width: 70%; min-width: 700px; margin-top: 1.8cm; margin-bottom: 1.8cm; }
+            .rwordb{ color: blue; font-weight: bold; }
+            .rwordv{ color:#8000ff; font-weight: bold; }
+            .vcomment{ color: green; }
+            .bcomment{ color: green; }
+            .niz{ color:#a31515; }
+            .stevilo{ color:#ff8000; }
+            tab { padding-left: 4em; }
+            #grad1 {
+                background: -webkit-linear-gradient(left, #E0E0E0 , white);
+                background: -o-linear-gradient(right, #E0E0E0, white);
+                background: -moz-linear-gradient(right, #E0E0E0, white);
+                background: linear-gradient(to right, #E0E0E0 , white);
+            }
+            #grad2 {
+                background: -webkit-linear-gradient(left, #FFBF00 , white);
+                background: -o-linear-gradient(right, #FFBF00, white);
+                background: -moz-linear-gradient(right, #FFBF00, white);
+                background: linear-gradient(to right, #FFBF00 , white);
+            }
+            .capSlika { display:block; height: 25px; margin:0 auto; font-size: 1.0em; text-align: left; }
+            .dborder { padding: 0px; border: 1px solid #CACACA; }
+            .capText { display: block; margin:0 auto; font-size: 0.9em; text-align: left; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <a name="top"></a>
+        <h1 id="grad2" style="padding: 10px; border: 0px solid black; color: #000000;">Rezultati preverjanja metod programa (13/13)</h1>
+        <div style="height: 20px"></div>
+        <a name="summary"></a>
+        <h2>Povzetek rezultatov</h2>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverOk"><a href="#testcase38">38</a></td>
+                <td class="hoverOk"><a href="#testcase39">39</a></td>
+                <td class="hoverOk"><a href="#testcase40">40</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <table id="nasredini" class="tableBase tableResults">
+            <tbody>
+                <tr>
+                <td class="hoverOk"><a href="#testcase41">41</a></td>
+                <td class="hoverOk"><a href="#testcase42">42</a></td>
+                <td class="hoverOk"><a href="#testcase43">43</a></td>
+                <td class="hoverOk"><a href="#testcase44">44</a></td>
+                <td class="hoverOk"><a href="#testcase45">45</a></td>
+                <td class="hoverOk"><a href="#testcase46">46</a></td>
+                <td class="hoverOk"><a href="#testcase47">47</a></td>
+                <td class="hoverOk"><a href="#testcase48">48</a></td>
+                <td class="hoverOk"><a href="#testcase49">49</a></td>
+                <td class="hoverOk"><a href="#testcase50">50</a></td>
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+        <div style="height: 20px"></div>
+        <h2>Rezultati</h2>
+        <a name="testcase38"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 38</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test38 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">21</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">6</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = ukazi[<span class="stevilo">10</span>].zaporedje(ukazi[<span class="stevilo">13</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = ukazi[<span class="stevilo">14</span>].zaporedje(ukazi[<span class="stevilo">9</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = ukazi[<span class="stevilo">17</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">20</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">10</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">16</span>, <span class="stevilo">1</span>, <span class="stevilo">11</span>, <span class="stevilo">3</span>, <span class="stevilo">8</span>, <span class="stevilo">9</span>, <span class="stevilo">17</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +0<br/>+3<br/>+1<br/>+6<br/>[+1,&nbsp;+0]<br/>[[+1,&nbsp;+0],&nbsp;[+1,&nbsp;+0]]<br/>+1<br/>[+1,&nbsp;+1]<br/>+1<br/>[+1,&nbsp;[+1,&nbsp;+0]]<br/>[[+1,&nbsp;+0],&nbsp;+1]<br/>+6<br/>[[[+1,&nbsp;+0],&nbsp;[+1,&nbsp;+0]],&nbsp;+6]<br/>-1<br/>+2<br/>[[[+1,&nbsp;+0],&nbsp;+1],&nbsp;-1]<br/>+2<br/>-4<br/>[+2,&nbsp;[+1,&nbsp;[+1,&nbsp;+0]]]<br/>[-4,&nbsp;[+1,&nbsp;+0]]<br/>[+3,&nbsp;[[+1,&nbsp;+0],&nbsp;+1]]<br/>----------<br/>[17,&nbsp;1,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;1,&nbsp;11,&nbsp;4,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;2,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;1,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;18]<br/>[17,&nbsp;2,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[18,&nbsp;3,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;2,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;3,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;2,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[17,&nbsp;3,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[17,&nbsp;3,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;1,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;18]<br/>[18,&nbsp;3,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;18]<br/>[16,&nbsp;0,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;1,&nbsp;12,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[17,&nbsp;2,&nbsp;11,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;1,&nbsp;12,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[16,&nbsp;1,&nbsp;11,&nbsp;3,&nbsp;7,&nbsp;9,&nbsp;17]<br/>[17,&nbsp;3,&nbsp;12,&nbsp;3,&nbsp;8,&nbsp;9,&nbsp;17]<br/>[17,&nbsp;2,&nbsp;11,&nbsp;3,&nbsp;7,&nbsp;9,&nbsp;17]<br/>[17,&nbsp;3,&nbsp;11,&nbsp;4,&nbsp;8,&nbsp;9,&nbsp;17]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase39"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 39</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test39 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">28</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = ukazi[<span class="stevilo">6</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">8</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">6</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = ukazi[<span class="stevilo">9</span>].zaporedje(ukazi[<span class="stevilo">11</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = ukazi[<span class="stevilo">9</span>].zaporedje(ukazi[<span class="stevilo">11</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">5</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = ukazi[<span class="stevilo">7</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">17</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">21</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">20</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">24</span>] = ukazi[<span class="stevilo">22</span>].zaporedje(ukazi[<span class="stevilo">15</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">26</span>] = ukazi[<span class="stevilo">9</span>].zaporedje(ukazi[<span class="stevilo">22</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">27</span>] = ukazi[<span class="stevilo">9</span>].zaporedje(ukazi[<span class="stevilo">11</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">11</span>, <span class="stevilo">14</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +0<br/>+1<br/>[+0,&nbsp;+1]<br/>[+1,&nbsp;[+0,&nbsp;+1]]<br/>+1<br/>[+1,&nbsp;[+0,&nbsp;+1]]<br/>[[+0,&nbsp;+1],&nbsp;+1]<br/>[[+0,&nbsp;+1],&nbsp;[[+0,&nbsp;+1],&nbsp;+1]]<br/>+1<br/>[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1]<br/>[[+1,&nbsp;[+0,&nbsp;+1]],&nbsp;+1]<br/>[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1]<br/>+1<br/>[[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1],&nbsp;[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1]]<br/>+0<br/>+1<br/>[[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1],&nbsp;[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1]]<br/>[[+0,&nbsp;+1],&nbsp;[+1,&nbsp;[+0,&nbsp;+1]]]<br/>[[[+0,&nbsp;+1],&nbsp;[[+0,&nbsp;+1],&nbsp;+1]],&nbsp;+1]<br/>[+1,&nbsp;[[+0,&nbsp;+1],&nbsp;[+1,&nbsp;[+0,&nbsp;+1]]]]<br/>+0<br/>[+1,&nbsp;+0]<br/>+1<br/>+0<br/>[+1,&nbsp;+1]<br/>+0<br/>[[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1],&nbsp;+1]<br/>[[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1],&nbsp;[[[+0,&nbsp;+1],&nbsp;+1],&nbsp;+1]]<br/>----------<br/>[12,&nbsp;14]<br/>[11,&nbsp;15]<br/>[12,&nbsp;15]<br/>[12,&nbsp;16]<br/>[11,&nbsp;15]<br/>[12,&nbsp;16]<br/>[12,&nbsp;16]<br/>[13,&nbsp;17]<br/>[11,&nbsp;15]<br/>[12,&nbsp;17]<br/>[12,&nbsp;17]<br/>[12,&nbsp;17]<br/>[11,&nbsp;15]<br/>[13,&nbsp;20]<br/>[12,&nbsp;14]<br/>[11,&nbsp;15]<br/>[13,&nbsp;20]<br/>[13,&nbsp;17]<br/>[13,&nbsp;18]<br/>[13,&nbsp;18]<br/>[12,&nbsp;14]<br/>[12,&nbsp;15]<br/>[11,&nbsp;15]<br/>[12,&nbsp;14]<br/>[11,&nbsp;16]<br/>[12,&nbsp;14]<br/>[12,&nbsp;18]<br/>[13,&nbsp;20]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase40"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 40</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test40 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">25</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">9</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">15</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = ukazi[<span class="stevilo">14</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">21</span>] = ukazi[<span class="stevilo">18</span>].zaporedje(ukazi[<span class="stevilo">8</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">22</span>] = ukazi[<span class="stevilo">6</span>].zaporedje(ukazi[<span class="stevilo">5</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">23</span>] = ukazi[<span class="stevilo">9</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">24</span>] = ukazi[<span class="stevilo">20</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">8</span>, <span class="stevilo">2</span>, <span class="stevilo">13</span>, <span class="stevilo">20</span>, <span class="stevilo">14</span>, <span class="stevilo">16</span>, <span class="stevilo">16</span>, <span class="stevilo">1</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            -7<br/>-3<br/>-1<br/>[-7,&nbsp;-1]<br/>-1<br/>[-3,&nbsp;-3]<br/>[-1,&nbsp;-1]<br/>-3<br/>-0<br/>-6<br/>-4<br/>[-6,&nbsp;-1]<br/>-2<br/>-0<br/>-1<br/>+5<br/>[[-7,&nbsp;-1],&nbsp;+5]<br/>-2<br/>-3<br/>[-1,&nbsp;[-1,&nbsp;-1]]<br/>-4<br/>[-3,&nbsp;-0]<br/>[[-1,&nbsp;-1],&nbsp;[-3,&nbsp;-3]]<br/>[-6,&nbsp;[-7,&nbsp;-1]]<br/>[-4,&nbsp;-1]<br/>----------<br/>[8,&nbsp;2,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;0]<br/>[8,&nbsp;2,&nbsp;13,&nbsp;19,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;1,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;1,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;0]<br/>[8,&nbsp;1,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;2,&nbsp;13,&nbsp;18,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;0,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;2,&nbsp;13,&nbsp;19,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[7,&nbsp;2,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;2,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;15,&nbsp;1]<br/>[8,&nbsp;2,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;1,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;15,&nbsp;1]<br/>[8,&nbsp;2,&nbsp;12,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[7,&nbsp;2,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;1,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;2,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;17,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;1,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;17,&nbsp;16,&nbsp;0]<br/>[8,&nbsp;2,&nbsp;12,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;2,&nbsp;13,&nbsp;19,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;0,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;2,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[7,&nbsp;2,&nbsp;13,&nbsp;19,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;0,&nbsp;13,&nbsp;18,&nbsp;14,&nbsp;16,&nbsp;16,&nbsp;1]<br/>[8,&nbsp;1,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;16,&nbsp;15,&nbsp;0]<br/>[8,&nbsp;1,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;16,&nbsp;16,&nbsp;1]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase41"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 41</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test41 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">29</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">5</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">9</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">10</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = ukazi[<span class="stevilo">10</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = ukazi[<span class="stevilo">13</span>].zaporedje(ukazi[<span class="stevilo">12</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">13</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = ukazi[<span class="stevilo">17</span>].zaporedje(ukazi[<span class="stevilo">8</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = ukazi[<span class="stevilo">11</span>].zaporedje(ukazi[<span class="stevilo">13</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">20</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">22</span>] = ukazi[<span class="stevilo">10</span>].zaporedje(ukazi[<span class="stevilo">11</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">24</span>] = ukazi[<span class="stevilo">18</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">25</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">14</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">27</span>] = ukazi[<span class="stevilo">14</span>].zaporedje(ukazi[<span class="stevilo">11</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">28</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">8</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">12</span>, <span class="stevilo">5</span>, <span class="stevilo">13</span>, <span class="stevilo">0</span>, <span class="stevilo">10</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            -4<br/>-3<br/>-2<br/>+3<br/>[+3,&nbsp;-3]<br/>+0<br/>[+0,&nbsp;[+3,&nbsp;-3]]<br/>[+3,&nbsp;+0]<br/>[[+3,&nbsp;-3],&nbsp;-3]<br/>[+3,&nbsp;+3]<br/>[-4,&nbsp;[+3,&nbsp;+3]]<br/>[+3,&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]]<br/>[-4,&nbsp;[-4,&nbsp;[+3,&nbsp;+3]]]<br/>[[-4,&nbsp;[+3,&nbsp;+3]],&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]]<br/>[[[-4,&nbsp;[+3,&nbsp;+3]],&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]],&nbsp;[-4,&nbsp;[-4,&nbsp;[+3,&nbsp;+3]]]]<br/>-4<br/>[-2,&nbsp;[[-4,&nbsp;[+3,&nbsp;+3]],&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]]]<br/>+4<br/>[+4,&nbsp;[[+3,&nbsp;-3],&nbsp;-3]]<br/>[[+3,&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]],&nbsp;[[-4,&nbsp;[+3,&nbsp;+3]],&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]]]<br/>+2<br/>+1<br/>[[-4,&nbsp;[+3,&nbsp;+3]],&nbsp;[+3,&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]]]<br/>-3<br/>[[+4,&nbsp;[[+3,&nbsp;-3],&nbsp;-3]],&nbsp;-2]<br/>[-3,&nbsp;[[[-4,&nbsp;[+3,&nbsp;+3]],&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]],&nbsp;[-4,&nbsp;[-4,&nbsp;[+3,&nbsp;+3]]]]]<br/>-2<br/>[[[[-4,&nbsp;[+3,&nbsp;+3]],&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]],&nbsp;[-4,&nbsp;[-4,&nbsp;[+3,&nbsp;+3]]]],&nbsp;[+3,&nbsp;[+0,&nbsp;[+3,&nbsp;-3]]]]<br/>[+3,&nbsp;[[+3,&nbsp;-3],&nbsp;-3]]<br/>----------<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;9]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;10]<br/>[12,&nbsp;5,&nbsp;12,&nbsp;0,&nbsp;10]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;1,&nbsp;10]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;10]<br/>[13,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;10]<br/>[13,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;10]<br/>[13,&nbsp;5,&nbsp;13,&nbsp;1,&nbsp;10]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;10]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;2,&nbsp;10]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;2,&nbsp;9]<br/>[13,&nbsp;5,&nbsp;13,&nbsp;1,&nbsp;10]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;2,&nbsp;8]<br/>[13,&nbsp;5,&nbsp;13,&nbsp;2,&nbsp;9]<br/>[13,&nbsp;5,&nbsp;13,&nbsp;4,&nbsp;7]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;9]<br/>[13,&nbsp;5,&nbsp;12,&nbsp;2,&nbsp;9]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;11]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;11]<br/>[14,&nbsp;5,&nbsp;13,&nbsp;3,&nbsp;9]<br/>[12,&nbsp;5,&nbsp;14,&nbsp;0,&nbsp;10]<br/>[12,&nbsp;6,&nbsp;13,&nbsp;0,&nbsp;10]<br/>[13,&nbsp;5,&nbsp;13,&nbsp;3,&nbsp;9]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;10]<br/>[12,&nbsp;5,&nbsp;12,&nbsp;0,&nbsp;11]<br/>[13,&nbsp;5,&nbsp;13,&nbsp;4,&nbsp;7]<br/>[12,&nbsp;5,&nbsp;12,&nbsp;0,&nbsp;10]<br/>[14,&nbsp;5,&nbsp;13,&nbsp;5,&nbsp;7]<br/>[12,&nbsp;5,&nbsp;13,&nbsp;0,&nbsp;10]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase42"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 42</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test42 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">12</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">5</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = ukazi[<span class="stevilo">6</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">7</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">7</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">18</span>, <span class="stevilo">20</span>, <span class="stevilo">18</span>, <span class="stevilo">12</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +2<br/>-3<br/>[+2,&nbsp;+2]<br/>[[+2,&nbsp;+2],&nbsp;+2]<br/>[[[+2,&nbsp;+2],&nbsp;+2],&nbsp;[[+2,&nbsp;+2],&nbsp;+2]]<br/>+3<br/>[+3,&nbsp;+3]<br/>+3<br/>[+2,&nbsp;+2]<br/>[[+3,&nbsp;+3],&nbsp;[[+2,&nbsp;+2],&nbsp;+2]]<br/>[[[+2,&nbsp;+2],&nbsp;+2],&nbsp;+3]<br/>[[+2,&nbsp;+2],&nbsp;+3]<br/>----------<br/>[18,&nbsp;20,&nbsp;19,&nbsp;12]<br/>[18,&nbsp;20,&nbsp;18,&nbsp;11]<br/>[18,&nbsp;20,&nbsp;20,&nbsp;12]<br/>[18,&nbsp;20,&nbsp;21,&nbsp;12]<br/>[18,&nbsp;20,&nbsp;24,&nbsp;12]<br/>[18,&nbsp;20,&nbsp;18,&nbsp;13]<br/>[18,&nbsp;20,&nbsp;18,&nbsp;14]<br/>[18,&nbsp;20,&nbsp;18,&nbsp;13]<br/>[18,&nbsp;20,&nbsp;20,&nbsp;12]<br/>[18,&nbsp;20,&nbsp;21,&nbsp;14]<br/>[18,&nbsp;20,&nbsp;21,&nbsp;13]<br/>[18,&nbsp;20,&nbsp;20,&nbsp;13]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase43"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 43</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test43 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">29</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = ukazi[<span class="stevilo">7</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">7</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">12</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = ukazi[<span class="stevilo">11</span>].zaporedje(ukazi[<span class="stevilo">10</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = ukazi[<span class="stevilo">11</span>].zaporedje(ukazi[<span class="stevilo">12</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = ukazi[<span class="stevilo">7</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">20</span>] = ukazi[<span class="stevilo">15</span>].zaporedje(ukazi[<span class="stevilo">17</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">25</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">26</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">28</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">7</span>);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">5</span>, <span class="stevilo">10</span>, <span class="stevilo">10</span>, <span class="stevilo">2</span>, <span class="stevilo">0</span>, <span class="stevilo">6</span>, <span class="stevilo">10</span>, <span class="stevilo">18</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            -6<br/>-3<br/>[-6,&nbsp;-6]<br/>+0<br/>-7<br/>[+0,&nbsp;+0]<br/>-0<br/>[[+0,&nbsp;+0],&nbsp;-7]<br/>+5<br/>[[[+0,&nbsp;+0],&nbsp;-7],&nbsp;-6]<br/>+5<br/>[[+0,&nbsp;+0],&nbsp;[[+0,&nbsp;+0],&nbsp;-7]]<br/>+1<br/>[-7,&nbsp;+1]<br/>[[[+0,&nbsp;+0],&nbsp;[[+0,&nbsp;+0],&nbsp;-7]],&nbsp;+5]<br/>-2<br/>[[[+0,&nbsp;+0],&nbsp;[[+0,&nbsp;+0],&nbsp;-7]],&nbsp;+1]<br/>-7<br/>+1<br/>[[[+0,&nbsp;+0],&nbsp;-7],&nbsp;-0]<br/>[-2,&nbsp;-7]<br/>+0<br/>+0<br/>-4<br/>+6<br/>+0<br/>+7<br/>-3<br/>+7<br/>----------<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;9,&nbsp;18]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;1,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;8,&nbsp;18]<br/>[6,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;17]<br/>[7,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[4,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[7,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;17]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;7,&nbsp;10,&nbsp;18]<br/>[7,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;9,&nbsp;17]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;7,&nbsp;10,&nbsp;18]<br/>[9,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;17]<br/>[5,&nbsp;11,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[5,&nbsp;11,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;17]<br/>[9,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;7,&nbsp;10,&nbsp;17]<br/>[5,&nbsp;10,&nbsp;9,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[9,&nbsp;11,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;17]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;17]<br/>[5,&nbsp;11,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[6,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;17]<br/>[5,&nbsp;10,&nbsp;9,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;17]<br/>[6,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[6,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;11,&nbsp;18]<br/>[6,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;19]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;1,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;18]<br/>[5,&nbsp;10,&nbsp;10,&nbsp;2,&nbsp;0,&nbsp;6,&nbsp;10,&nbsp;19]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase44"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 44</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test44 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">24</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">20</span>] = ukazi[<span class="stevilo">17</span>].zaporedje(ukazi[<span class="stevilo">17</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">21</span>] = ukazi[<span class="stevilo">14</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">22</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">12</span>, <span class="stevilo">19</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +1<br/>+0<br/>+1<br/>+0<br/>+0<br/>+1<br/>[+0,&nbsp;+1]<br/>[+1,&nbsp;+1]<br/>+0<br/>+0<br/>[+0,&nbsp;+1]<br/>+1<br/>+0<br/>+1<br/>+1<br/>+1<br/>+1<br/>+0<br/>+0<br/>+0<br/>[+0,&nbsp;+0]<br/>[+1,&nbsp;+0]<br/>[+1,&nbsp;[+0,&nbsp;+1]]<br/>+0<br/>----------<br/>[12,&nbsp;20]<br/>[13,&nbsp;19]<br/>[12,&nbsp;20]<br/>[13,&nbsp;19]<br/>[13,&nbsp;19]<br/>[12,&nbsp;20]<br/>[13,&nbsp;20]<br/>[12,&nbsp;21]<br/>[13,&nbsp;19]<br/>[13,&nbsp;19]<br/>[13,&nbsp;20]<br/>[12,&nbsp;20]<br/>[13,&nbsp;19]<br/>[12,&nbsp;20]<br/>[12,&nbsp;20]<br/>[12,&nbsp;20]<br/>[12,&nbsp;20]<br/>[13,&nbsp;19]<br/>[13,&nbsp;19]<br/>[13,&nbsp;19]<br/>[14,&nbsp;19]<br/>[13,&nbsp;20]<br/>[13,&nbsp;21]<br/>[13,&nbsp;19]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase45"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 45</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test45 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">15</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = ukazi[<span class="stevilo">8</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">9</span>].zaporedje(ukazi[<span class="stevilo">8</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">10</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">7</span>);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">13</span>, <span class="stevilo">12</span>, <span class="stevilo">0</span>, <span class="stevilo">6</span>, <span class="stevilo">16</span>, <span class="stevilo">9</span>, <span class="stevilo">1</span>, <span class="stevilo">16</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            -2<br/>+5<br/>+0<br/>+2<br/>[-2,&nbsp;+0]<br/>-1<br/>+5<br/>[+5,&nbsp;+0]<br/>+4<br/>[+4,&nbsp;[-2,&nbsp;+0]]<br/>[[+4,&nbsp;[-2,&nbsp;+0]],&nbsp;+4]<br/>[+2,&nbsp;[[+4,&nbsp;[-2,&nbsp;+0]],&nbsp;+4]]<br/>+3<br/>+3<br/>+7<br/>----------<br/>[13,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;16,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[13,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;16,&nbsp;10,&nbsp;1,&nbsp;16]<br/>[14,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;16,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[13,&nbsp;12,&nbsp;1,&nbsp;6,&nbsp;16,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[14,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;16,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[13,&nbsp;11,&nbsp;0,&nbsp;6,&nbsp;16,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[13,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;16,&nbsp;10,&nbsp;1,&nbsp;16]<br/>[14,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;16,&nbsp;10,&nbsp;1,&nbsp;16]<br/>[13,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;17,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[14,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;17,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[14,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[14,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[13,&nbsp;12,&nbsp;0,&nbsp;7,&nbsp;16,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[13,&nbsp;12,&nbsp;0,&nbsp;7,&nbsp;16,&nbsp;9,&nbsp;1,&nbsp;16]<br/>[13,&nbsp;12,&nbsp;0,&nbsp;6,&nbsp;16,&nbsp;9,&nbsp;1,&nbsp;17]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase46"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 46</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test46 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">12</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = ukazi[<span class="stevilo">7</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">5</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">8</span>].zaporedje(ukazi[<span class="stevilo">7</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">20</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            -0<br/>-0<br/>+0<br/>[+0,&nbsp;-0]<br/>-0<br/>-0<br/>[[+0,&nbsp;-0],&nbsp;-0]<br/>[-0,&nbsp;-0]<br/>[[-0,&nbsp;-0],&nbsp;-0]<br/>-0<br/>[-0,&nbsp;-0]<br/>[[[-0,&nbsp;-0],&nbsp;-0],&nbsp;[-0,&nbsp;-0]]<br/>----------<br/>[19]<br/>[19]<br/>[21]<br/>[20]<br/>[19]<br/>[19]<br/>[19]<br/>[18]<br/>[17]<br/>[19]<br/>[18]<br/>[15]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase47"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 47</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test47 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">14</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">7</span>].zaporedje(ukazi[<span class="stevilo">9</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">9</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = ukazi[<span class="stevilo">10</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">16</span>, <span class="stevilo">0</span>, <span class="stevilo">19</span>, <span class="stevilo">0</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            +1<br/>+0<br/>[+0,&nbsp;+1]<br/>[+1,&nbsp;[+0,&nbsp;+1]]<br/>+1<br/>-3<br/>[-3,&nbsp;+1]<br/>[+1,&nbsp;[-3,&nbsp;+1]]<br/>+2<br/>+0<br/>[[+1,&nbsp;[-3,&nbsp;+1]],&nbsp;+0]<br/>[+1,&nbsp;+0]<br/>+1<br/>[[[+1,&nbsp;[-3,&nbsp;+1]],&nbsp;+0],&nbsp;+0]<br/>----------<br/>[16,&nbsp;1,&nbsp;19,&nbsp;0]<br/>[17,&nbsp;0,&nbsp;19,&nbsp;0]<br/>[17,&nbsp;1,&nbsp;19,&nbsp;0]<br/>[17,&nbsp;2,&nbsp;19,&nbsp;0]<br/>[16,&nbsp;1,&nbsp;19,&nbsp;0]<br/>[16,&nbsp;0,&nbsp;19,&nbsp;0]<br/>[16,&nbsp;1,&nbsp;19,&nbsp;0]<br/>[16,&nbsp;2,&nbsp;19,&nbsp;0]<br/>[16,&nbsp;0,&nbsp;20,&nbsp;0]<br/>[17,&nbsp;0,&nbsp;19,&nbsp;0]<br/>[17,&nbsp;2,&nbsp;19,&nbsp;0]<br/>[17,&nbsp;1,&nbsp;19,&nbsp;0]<br/>[16,&nbsp;1,&nbsp;19,&nbsp;0]<br/>[18,&nbsp;2,&nbsp;19,&nbsp;0]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase48"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 48</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test48 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">20</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">9</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">8</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">9</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">9</span>].zaporedje(ukazi[<span class="stevilo">7</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = ukazi[<span class="stevilo">11</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = ukazi[<span class="stevilo">12</span>].zaporedje(ukazi[<span class="stevilo">13</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">8</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = ukazi[<span class="stevilo">17</span>].zaporedje(ukazi[<span class="stevilo">10</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = ukazi[<span class="stevilo">11</span>].zaporedje(ukazi[<span class="stevilo">16</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">7</span>, <span class="stevilo">0</span>, <span class="stevilo">9</span>, <span class="stevilo">0</span>, <span class="stevilo">6</span>, <span class="stevilo">18</span>, <span class="stevilo">4</span>, <span class="stevilo">9</span>, <span class="stevilo">15</span>, <span class="stevilo">15</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            -1<br/>-9<br/>-8<br/>+7<br/>[-9,&nbsp;+7]<br/>-2<br/>-7<br/>-9<br/>[+7,&nbsp;-7]<br/>-5<br/>-0<br/>[-5,&nbsp;-9]<br/>-7<br/>[[-5,&nbsp;-9],&nbsp;-9]<br/>-0<br/>[-7,&nbsp;[[-5,&nbsp;-9],&nbsp;-9]]<br/>-8<br/>-7<br/>[-7,&nbsp;-0]<br/>[[-5,&nbsp;-9],&nbsp;-8]<br/>----------<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;14]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;14,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;10,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;10,&nbsp;15,&nbsp;14]<br/>[7,&nbsp;0,&nbsp;8,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;8,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;14]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;17,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;15]<br/>[6,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;17,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;14]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;8,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;17,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;13]<br/>[6,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;17,&nbsp;4,&nbsp;8,&nbsp;15,&nbsp;13]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;9,&nbsp;14,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;8,&nbsp;15,&nbsp;15]<br/>[6,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;18,&nbsp;4,&nbsp;8,&nbsp;15,&nbsp;15]<br/>[7,&nbsp;0,&nbsp;9,&nbsp;0,&nbsp;6,&nbsp;17,&nbsp;4,&nbsp;9,&nbsp;14,&nbsp;14]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase49"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 49</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test49 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">29</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">2</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">3</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = ukazi[<span class="stevilo">5</span>].zaporedje(ukazi[<span class="stevilo">5</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">9</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = ukazi[<span class="stevilo">6</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = ukazi[<span class="stevilo">13</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = ukazi[<span class="stevilo">17</span>].zaporedje(ukazi[<span class="stevilo">14</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">20</span>] = ukazi[<span class="stevilo">11</span>].zaporedje(ukazi[<span class="stevilo">4</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">21</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">0</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">22</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">23</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">4</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">24</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">5</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">25</span>] = ukazi[<span class="stevilo">19</span>].zaporedje(ukazi[<span class="stevilo">13</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">26</span>] = ukazi[<span class="stevilo">0</span>].zaporedje(ukazi[<span class="stevilo">15</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">27</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">28</span>] = ukazi[<span class="stevilo">15</span>].zaporedje(ukazi[<span class="stevilo">15</span>]);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">12</span>, <span class="stevilo">16</span>, <span class="stevilo">13</span>, <span class="stevilo">20</span>, <span class="stevilo">13</span>, <span class="stevilo">8</span>, <span class="stevilo">13</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            -1<br/>-6<br/>[-6,&nbsp;-1]<br/>-4<br/>[[-6,&nbsp;-1],&nbsp;[-6,&nbsp;-1]]<br/>[-4,&nbsp;-1]<br/>[-4,&nbsp;-1]<br/>+4<br/>[-6,&nbsp;-6]<br/>[[-4,&nbsp;-1],&nbsp;[-4,&nbsp;-1]]<br/>-1<br/>-0<br/>[[-6,&nbsp;-1],&nbsp;[[-4,&nbsp;-1],&nbsp;[-4,&nbsp;-1]]]<br/>+5<br/>[[-4,&nbsp;-1],&nbsp;[-4,&nbsp;-1]]<br/>-1<br/>[+5,&nbsp;[-4,&nbsp;-1]]<br/>-3<br/>+0<br/>[-3,&nbsp;[[-4,&nbsp;-1],&nbsp;[-4,&nbsp;-1]]]<br/>[-0,&nbsp;[[-6,&nbsp;-1],&nbsp;[-6,&nbsp;-1]]]<br/>-0<br/>+5<br/>-4<br/>-5<br/>[[-3,&nbsp;[[-4,&nbsp;-1],&nbsp;[-4,&nbsp;-1]]],&nbsp;+5]<br/>[-1,&nbsp;-1]<br/>-3<br/>[-1,&nbsp;-1]<br/>----------<br/>[12,&nbsp;15,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;12]<br/>[12,&nbsp;15,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;12]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;12,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;14,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;11]<br/>[12,&nbsp;15,&nbsp;13,&nbsp;20,&nbsp;12,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;15,&nbsp;13,&nbsp;20,&nbsp;12,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;14,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;11]<br/>[12,&nbsp;14,&nbsp;13,&nbsp;20,&nbsp;11,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;15,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[11,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;13,&nbsp;13,&nbsp;20,&nbsp;11,&nbsp;8,&nbsp;12]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;9,&nbsp;13]<br/>[12,&nbsp;14,&nbsp;13,&nbsp;20,&nbsp;11,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;15,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;15,&nbsp;13,&nbsp;20,&nbsp;12,&nbsp;9,&nbsp;13]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;19,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[13,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;14,&nbsp;13,&nbsp;19,&nbsp;11,&nbsp;8,&nbsp;13]<br/>[11,&nbsp;14,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;11]<br/>[11,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;9,&nbsp;13]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;12,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;7,&nbsp;13]<br/>[12,&nbsp;14,&nbsp;13,&nbsp;19,&nbsp;11,&nbsp;9,&nbsp;13]<br/>[12,&nbsp;14,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;16,&nbsp;13,&nbsp;19,&nbsp;13,&nbsp;8,&nbsp;13]<br/>[12,&nbsp;14,&nbsp;13,&nbsp;20,&nbsp;13,&nbsp;8,&nbsp;13]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+        <a name="testcase50"></a>
+        <div style="border: 1px solid #63B563">
+            <table class="tableOK tableCommon" style="width: 100%; border: 3px solid #9F9;">
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="background-color: #9F9; color: black;">Testni primer 50</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 200px;">Vhod</td>
+                        <td class="texttt">
+                            <br/>
+<span class="rwordb">import</span> java.util.Arrays;<br/>
+<br/>
+<span class="rwordv">public</span> <span class="rwordv">class</span> Test50 {<br/>
+<tab><span class="rwordv">public</span> <span class="rwordv">static</span> <span class="rwordv">void</span> main(String[] args) {<br/>
+<tab><tab>Tretja.Ukaz[] ukazi = <span class="rwordb">new</span> Tretja.Ukaz[<span class="stevilo">20</span>];<br/>
+<tab><tab>ukazi[<span class="stevilo">0</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">7</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">1</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">1</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">2</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">3</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">4</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">5</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">8</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">6</span>] = ukazi[<span class="stevilo">2</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">7</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">0</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">8</span>] = ukazi[<span class="stevilo">4</span>].zaporedje(ukazi[<span class="stevilo">6</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">9</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">10</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">1</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">11</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">3</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">12</span>] = ukazi[<span class="stevilo">1</span>].zaporedje(ukazi[<span class="stevilo">10</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">13</span>] = <span class="rwordb">new</span> Tretja.Postavi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">14</span>] = ukazi[<span class="stevilo">10</span>].zaporedje(ukazi[<span class="stevilo">8</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">15</span>] = ukazi[<span class="stevilo">14</span>].zaporedje(ukazi[<span class="stevilo">11</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">16</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">2</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">17</span>] = ukazi[<span class="stevilo">16</span>].zaporedje(ukazi[<span class="stevilo">16</span>]);<br/>
+<tab><tab>ukazi[<span class="stevilo">18</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">6</span>);<br/>
+<tab><tab>ukazi[<span class="stevilo">19</span>] = <span class="rwordb">new</span> Tretja.Odvzemi(<span class="stevilo">3</span>);<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab>System.out.println(ukaz);<br/>
+<tab><tab>}<br/>
+<tab><tab>System.out.println(<span class="niz">"----------"</span>);<br/>
+<br/>
+<tab><tab><span class="rwordb">for</span> (Tretja.Ukaz ukaz: ukazi) {<br/>
+<tab><tab><tab><span class="rwordv">int</span>[] stolpi = {<span class="stevilo">12</span>, <span class="stevilo">6</span>, <span class="stevilo">1</span>, <span class="stevilo">19</span>, <span class="stevilo">20</span>, <span class="stevilo">11</span>, <span class="stevilo">9</span>, <span class="stevilo">12</span>, <span class="stevilo">5</span>};<br/>
+<tab><tab><tab>ukaz.izvedi(stolpi);<br/>
+<tab><tab><tab>System.out.println(Arrays.toString(stolpi));<br/>
+<tab><tab>}<br/>
+<tab>}<br/>
+}<br/>
+
+
+<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izhod programa</td>
+                        <td class="texttt">
+                            -7<br/>-1<br/>-2<br/>-3<br/>[-1,&nbsp;-7]<br/>+8<br/>[-2,&nbsp;-3]<br/>[[-1,&nbsp;-7],&nbsp;-7]<br/>[[-1,&nbsp;-7],&nbsp;[-2,&nbsp;-3]]<br/>+6<br/>[-1,&nbsp;-1]<br/>[-1,&nbsp;-3]<br/>[-1,&nbsp;[-1,&nbsp;-1]]<br/>+6<br/>[[-1,&nbsp;-1],&nbsp;[[-1,&nbsp;-7],&nbsp;[-2,&nbsp;-3]]]<br/>[[[-1,&nbsp;-1],&nbsp;[[-1,&nbsp;-7],&nbsp;[-2,&nbsp;-3]]],&nbsp;[-1,&nbsp;-3]]<br/>-2<br/>[-2,&nbsp;-2]<br/>-6<br/>-3<br/>----------<br/>[12,&nbsp;6,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;11,&nbsp;5]<br/>[12,&nbsp;5,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;0,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;1,&nbsp;18,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;5,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;11,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;6]<br/>[12,&nbsp;6,&nbsp;0,&nbsp;18,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;5,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;10,&nbsp;5]<br/>[12,&nbsp;5,&nbsp;0,&nbsp;18,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;11,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;10,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;4,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;5,&nbsp;1,&nbsp;18,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;3,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;10,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;3,&nbsp;0,&nbsp;18,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;11,&nbsp;5]<br/>[12,&nbsp;2,&nbsp;0,&nbsp;17,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;11,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;0,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;0,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;1,&nbsp;19,&nbsp;20,&nbsp;11,&nbsp;8,&nbsp;12,&nbsp;5]<br/>[12,&nbsp;6,&nbsp;1,&nbsp;18,&nbsp;20,&nbsp;11,&nbsp;9,&nbsp;12,&nbsp;5]<br/><br/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 15px"></div>
+<div style="font-size: 0.8em;">[ <a href="#top">&uparrow;</a> | <a href="#bottom">&downarrow;</a> | 
+<a href="#summary">Povzetek</a> | 
+<a href="#testcase1">Rezultati</a> ]</div><div style="height: 30px"></div>
+
+        <div style="height: 30px"></div>
+
+        <table id="grad1" class="tableLegend tableSummary"
+          <tbody>
+            <tr>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #9F9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">ok</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FFBF00; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #FF9; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">napaka med izvajanjem</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #C00000; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">se ne prevede</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #B9F; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">timeout (1000 ms)</td>
+                </tr>
+              </table>
+              </td>
+              <td style="color: black;">
+              <table class="tableLegend">
+                <tr>
+	              <td style="background-color: #D0E0F0; color: black; width: 10px; text-align: center; border: 1px solid black; padding: 2px;"></td>
+	              <td style="font-size: 0.7em; padding: 3px;">rezultat izrisa</td>
+                </tr>
+              </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a name="bottom"></a>
+        </div>
+    </body>
+    <!-- java class tester version "1.5.12" -->
+    <!-- 29.8.2024 14:50.33 -->
+    <!-- malina, 192.168.1.32 -->
+</html>
