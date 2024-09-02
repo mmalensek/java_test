@@ -4,50 +4,43 @@ import java.util.*;
 public class Tretja {
 
     public static class Oddajnik {
-        private List<Sprejemnik> sprejemniki = new ArrayList<>();
-
+        ArrayList<Sprejemnik> sprejemniki = new ArrayList<>();
+        
         public void dodajSprejemnika(Sprejemnik sprejemnik){
             sprejemniki.add(sprejemnik);
         }
 
         public void oddaj(char crka){
-            for(Sprejemnik sprejemnik : sprejemniki){
-                sprejemnik.oddanaCrka(crka);
+            for(int i = 0; i < sprejemniki.size(); i++){
+                sprejemniki.get(i).sprejem.add(crka);
+                sprejemniki.get(i).indeks++;
             }
         }
     }
 
     public static class Sprejemnik {
-        private Oddajnik oddajnik;
-        private List<Character> sporocila = new ArrayList<>();
-        private int indeks;
-        private int zacetek;
+        int indeks;
+        int zadnjiIndeks;
+        Oddajnik oddajnik;
+        ArrayList<Character> sprejem = new ArrayList<>();
 
         public Sprejemnik(Oddajnik oddajnik){
             this.oddajnik = oddajnik;
-            oddajnik.dodajSprejemnika(this);
             indeks = 0;
-            zacetek = 0;
-        }
-
-        public void oddanaCrka(char crka){
-            sporocila.add(crka);
-            indeks++;
+            zadnjiIndeks = 0;
+            oddajnik.dodajSprejemnika(this);
         }
 
         public int koliko(){
-            return sporocila.size();
+            return sprejem.size();
         }
 
         public String odZadnjic(){
             String VRNI = "";
-
-            for(int i = zacetek; i < indeks; i++){
-                VRNI = VRNI + Character.toString(sporocila.get(i));
+            for(int i = zadnjiIndeks; i < indeks; i++){
+                VRNI += sprejem.get(i);
             }
-
-            zacetek = indeks;
-            
+            zadnjiIndeks = indeks;
             return VRNI;
         }
     }
